@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: telegram-premium-bot-web
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn telegram_premium_bot_production:app --host 0.0.0.0 --port $PORT
+    envVars:
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      DATABASE_URL: ${DATABASE_URL}
+      STRIPE_SECRET: ${STRIPE_SECRET}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
+      PREMIUM_PRICE_ID: ${PREMIUM_PRICE_ID}
+      ADMIN_USER_ID: ${ADMIN_USER_ID}
+
+  - type: worker
+    name: telegram-premium-bot-worker
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python telegram_premium_bot_production.py --worker
+    envVars:
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      DATABASE_URL: ${DATABASE_URL}
+      STRIPE_SECRET: ${STRIPE_SECRET}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
+      PREMIUM_PRICE_ID: ${PREMIUM_PRICE_ID}
+      ADMIN_USER_ID: ${ADMIN_USER_ID}
