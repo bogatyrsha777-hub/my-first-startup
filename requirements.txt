@@ -1,0 +1,7 @@
+aiogram>=3.0.0b7
+fastapi
+uvicorn[standard]
+asyncpg
+openai
+stripe
+pydantic
