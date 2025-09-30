@@ -1,7 +1,6 @@
-aiogram>=3.0.0b7
-fastapi
-uvicorn[standard]
-asyncpg
-openai
-stripe
-pydantic
+aiogram==3.*
+fastapi==0.115.*
+uvicorn==0.32.*
+asyncpg==0.29.*
+aiohttp==3.*
+python-dotenv==1.*
