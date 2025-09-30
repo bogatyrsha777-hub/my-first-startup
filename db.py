@@ -1,5 +1,4 @@
 import asyncpg
-from datetime import datetime, timezone
 
 class DB:
     def __init__(self, database_url):
