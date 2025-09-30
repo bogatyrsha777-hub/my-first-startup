@@ -44,8 +44,6 @@ async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     # --- Виклик OpenAI ---
-    # Наприклад, через openai.ChatCompletion.create(...)
-    # Тут поки просто заглушка
     response = f"Тут буде відповідь OpenAI на: {update.message.text}"
     await update.message.reply_text(response)
 
@@ -58,20 +56,21 @@ async def buy(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Після оплати надішліть квитанцію адміну, і протягом 5 хв преміум буде активовано."
     )
 
-# ---------- FastAPI endpoint для Telegram ----------
+# ---------- Telegram Application (створюється один раз) ----------
+app_telegram = ApplicationBuilder().token(TELEGRAM_BOT_TOKEN).build()
+app_telegram.add_handler(CommandHandler("start", start))
+app_telegram.add_handler(CommandHandler("ask", ask))
+app_telegram.add_handler(CommandHandler("buy", buy))
+
+# ---------- FastAPI startup ----------
 @app.on_event("startup")
 async def startup():
     await db.connect()
 
+# ---------- FastAPI endpoint для Telegram ----------
 @app.post("/telegram")
 async def telegram_webhook(req: Request):
     data = await req.json()
     update = Update.de_json(data)
-    app_telegram = ApplicationBuilder().token(TELEGRAM_BOT_TOKEN).build()
-
-    app_telegram.add_handler(CommandHandler("start", start))
-    app_telegram.add_handler(CommandHandler("ask", ask))
-    app_telegram.add_handler(CommandHandler("buy", buy))
-
     await app_telegram.process_update(update)
     return {"status": "ok"}
