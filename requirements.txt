@@ -1,6 +1,7 @@
-aiogram==3.*
-fastapi==0.115.*
-uvicorn==0.32.*
-asyncpg==0.29.*
-aiohttp==3.*
-python-dotenv==1.*
+fastapi==0.112.0
+uvicorn==0.23.2
+asyncpg==1.35.0
+python-telegram-bot==20.6
+openai==1.7.0
+httpx==0.24.1
+python-dotenv==1.0.0
